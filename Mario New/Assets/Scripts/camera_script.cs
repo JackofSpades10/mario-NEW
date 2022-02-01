@@ -6,8 +6,7 @@ public class camera_script : MonoBehaviour
 {
     public Transform followTransform;
     public BoxCollider2D mapBounds;
-
-
+    
     private float xMin, xMax;
     private float camY,camX;
     private Camera mainCam;

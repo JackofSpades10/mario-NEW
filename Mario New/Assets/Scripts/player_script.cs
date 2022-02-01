@@ -69,15 +69,32 @@ public class player_script : MonoBehaviour
             }
             else // slide down and walk into castle
             {
+                if (health == 1)
+                {
                 if (transform.position.y > 1)
                 {
                     place.y -= 2f * Time.deltaTime;
                     
                 }// 50 is the castle location
-                else if (transform.position.x < 50)
+                else if (transform.position.x < 204)
                 {
                     place.x += 2f * Time.deltaTime;
                 }
+                }
+
+                if (health >= 2)
+                {
+                    if (transform.position.y > 3)
+                {
+                    place.y -= 2f * Time.deltaTime;
+                    
+                }// 50 is the castle location
+                else if (transform.position.x < 204)
+                {
+                    place.x += 2f * Time.deltaTime;
+                }
+                }
+
             }
             transform.localPosition = place;
         }

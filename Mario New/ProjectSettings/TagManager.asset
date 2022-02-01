@@ -22,7 +22,7 @@ TagManager:
   - Water
   - UI
   - powerups
-  - Background
+  - 
   - player
   - enemy
   - projectile
@@ -30,7 +30,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - background
   - 
   - 
   - 
@@ -48,6 +48,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: background
+    uniqueID: 4139552317
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

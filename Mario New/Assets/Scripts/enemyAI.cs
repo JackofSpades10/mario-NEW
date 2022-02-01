@@ -29,14 +29,23 @@ public class enemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("player").GetComponent<player_script>();
         enabled = false;
+        player = GameObject.Find("player").GetComponent<player_script>();
+        
         Fall();
     }
+
+        // when enemy is on screen turn them on
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(state.ToString());
         UpdateEnemyPosition();
 
         CheckCrushed();
@@ -191,11 +200,6 @@ public class enemyAI : MonoBehaviour
             isWalkingLeft = !isWalkingLeft;
         }
 
-    }
-    // when enemy is on screen turn them on
-    void OnBecameVisible()
-    {
-        enabled = true;
     }
 
 

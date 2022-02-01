@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1022590448954828616}
   - component: {fileID: 5990427484658449308}
   - component: {fileID: 6160868953029678075}
+  - component: {fileID: 3152609662475554287}
+  - component: {fileID: 3152609662475554286}
   m_Layer: 9
   m_Name: koopa
   m_TagString: koopa
@@ -29,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 8741671157284540765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.206686, y: 6.0900574, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7623117, y: 0.75362086, z: 0.8277}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.03551086, g: 0.3584906, b: 0.037600603, a: 1}
+  m_Sprite: {fileID: -4471570388741191288, guid: c7ae9580d4719e74788720c5b6a733e5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,7 +104,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.8, y: 1.9333333}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -157,3 +159,37 @@ MonoBehaviour:
   koopa: {fileID: -2413806693520163455, guid: 85b606075d494454ba9041d81d146ada, type: 3}
   shell: {fileID: 7482667652216324306, guid: fecee93a7c4420c439dc894bab49dd87, type: 3}
   timeBeforeUp: 5
+--- !u!111 &3152609662475554287
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8741671157284540765}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 40f2641eaf2d4bf40af0d39f8ee1a918, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!95 &3152609662475554286
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8741671157284540765}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d0296bca114a79c47bb0979b757d5440, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
