@@ -38,6 +38,7 @@ public class player_script : MonoBehaviour
     bool dieDown = false;
     bool ogPosSet = false;
     public Vector2 ogLoc;
+    bool pause = false;
 
     public enum PlayerState {
         jumping,
@@ -57,7 +58,29 @@ public class player_script : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {      
+    {     
+        Debug.Log(isGrounded.ToString());
+        
+        if (Input.GetKeyDown(KeyCode.P) && Time.timeScale == 1)
+        {
+            
+            pause = true;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.P) && Time.timeScale == 0)
+        {
+            pause = false;
+        }
+
+        if (pause)
+        {
+            Time.timeScale = 0;
+        }
+        else if (health != 0)
+        {
+            Time.timeScale = 1;
+        }
+
         if (Time.timeScale != 0)
         {
             ogLoc = transform.localPosition;
@@ -201,7 +224,7 @@ public class player_script : MonoBehaviour
             transform.localPosition = loc;
         }
 
-        if (health == 3 && (Input.GetKeyDown(KeyCode.LeftShift)) && canInput)
+        if (health == 3 && (Input.GetKeyDown(KeyCode.LeftShift)) || Input.GetKey(KeyCode.Z) && canInput)
         {
             if (GameObject.FindGameObjectsWithTag("fireball").Length < 2)
             {
@@ -337,7 +360,7 @@ public class player_script : MonoBehaviour
 
     void Jump() 
     { 
-    if (Input.GetKeyDown(KeyCode.Space) && isGrounded && canInput) { 
+    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.X) && isGrounded && canInput) { 
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         playerState = PlayerState.jumping;
         }
@@ -358,8 +381,14 @@ public class player_script : MonoBehaviour
         {
            Vector3 scale = transform.localScale;
 
-      float x = Input.GetAxisRaw("Horizontal"); 
-     float moveBy = x * speed;
+      float x = Input.GetAxisRaw("Horizontal");
+       float moveBy = x * speed;
+      if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Z))
+      {
+          moveBy = x * (speed+2);
+          
+      }
+    Debug.Log(moveBy.ToString());
         if (moveBy > 0)
         {
             scale.x = 1;
