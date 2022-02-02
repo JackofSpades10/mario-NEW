@@ -11,12 +11,13 @@ public class castle : MonoBehaviour
     int pointsGiven;
     float time = 0;
     float timer = 10;
+    public Sprite flagsprite;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            
+            gameObject.GetComponent<SpriteRenderer>().sprite = flagsprite;
             //destroy the player
             Destroy(other.gameObject);
             //determine the amount of score they should get for time 50/sec

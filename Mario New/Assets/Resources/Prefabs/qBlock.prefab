@@ -103,7 +103,7 @@ MonoBehaviour:
   coinMoveSpeed: 8
   coinMoveHeight: 2
   coinFallDistance: 1
-  emptyBlockSprite: {fileID: -2413806693520163455, guid: 5c2e0c12e383b964fb491bac572a14a1, type: 3}
+  emptyBlockSprite: {fileID: -4640030556591388998, guid: 3617943be93d45247bea7d77bf48dd69, type: 3}
 --- !u!61 &5756900888580158782
 BoxCollider2D:
   m_ObjectHideFlags: 0

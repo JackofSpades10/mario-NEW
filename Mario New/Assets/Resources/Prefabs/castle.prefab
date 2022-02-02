@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2139868017662796262}
   - component: {fileID: 2139868017662796263}
   - component: {fileID: 2139868017662796260}
+  - component: {fileID: -6310752381368254465}
   m_Layer: 0
   m_Name: castle
   m_TagString: Untagged
@@ -122,3 +123,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ece0b991f8c449a398977ede2290a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &-6310752381368254465
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139868017662796261}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9bdfe6715f4dc474c9a134c77c0ae8da, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
