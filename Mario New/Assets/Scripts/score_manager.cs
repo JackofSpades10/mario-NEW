@@ -17,14 +17,14 @@ public class score_manager : MonoBehaviour
     public float tick = 0;
     public float uiTimer = 400f;
     public bool levelDone = false;
-
+    public float timer2 = 3f;
+    public float time2 = 0f;
     public static int lives = 3;
     // Start is called before the first frame update
     void Start()
     {
         lifeText.text = "x   "+lives;
         DontDestroyOnLoad(this.gameObject);
-        tick = 0;
         if (instance == null)
         {
             instance = this;
@@ -42,10 +42,18 @@ public class score_manager : MonoBehaviour
 
     public void changeLives(int num)
     {
-        tick = 0;
         lives += num;
-        lifeText.text = "x   "+lives;
+        
+        if (lives == 0)
+        {
+            lifeText.text = "GAME OVER";
+        }
+        else
+        {
+            lifeText.text = "x   "+lives;
+        }
         SceneManager.LoadScene(3);
+        
     }
 
     public void ChangeScore(int Value)
@@ -87,15 +95,31 @@ public class score_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        
+        
         if (SceneManager.GetActiveScene().buildIndex == 3)
         {
-            lifeText.text = "x   "+lives;
+           
+        if (lives == 0)
+        {
+            lifeText.text = "GAME OVER";
+        }
+        else
+        {
+         
+            
+            
+          uiTimer = 400f; 
+
+        lifeText.text = "x   "+lives; 
+        }
+           
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             lifeText.text = "";
-            tick = 0;
+             tick = 0;
             if (!levelDone)
             {
                 uiTimer -= Time.deltaTime/0.4f;
@@ -110,14 +134,16 @@ public class score_manager : MonoBehaviour
         }
 
 
-        if(tick < timer && SceneManager.GetActiveScene().buildIndex != 2)
+        if(tick < timer && SceneManager.GetActiveScene().buildIndex != 2 && lives > 0)
         {
             tick += Time.deltaTime;
+            Debug.Log(tick.ToString());
         }
         else if (SceneManager.GetActiveScene().buildIndex != 2)
         { 
-            SceneManager.LoadScene(2);
             uiTimer = 400f;
+           
+            SceneManager.LoadScene(2);
         }
 
     }

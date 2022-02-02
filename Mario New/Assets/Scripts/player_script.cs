@@ -24,12 +24,20 @@ public class player_script : MonoBehaviour
     public Sprite bigPlayer;
     public Sprite smallPlayer;
     public int health = 1;
+    public float iTimer = 3;
+    public float iTime = 0;
 
+    public bool invincible = false;
     private bool canInput = true;
     private bool gotPoints = false;
     float castleTimer = 1f;
     float castleTime = 0f;
-
+    float blinkTimer = 0.2f;
+    float blinkTime = 0;
+    bool dieUp = true;
+    bool dieDown = false;
+    bool ogPosSet = false;
+    public Vector2 ogLoc;
 
     public enum PlayerState {
         jumping,
@@ -49,7 +57,11 @@ public class player_script : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {   
+    {      
+        if (Time.timeScale != 0)
+        {
+            ogLoc = transform.localPosition;
+        }
         Vector3 pos = transform.localPosition;
         Vector3 scale = transform.localScale;
         move();
@@ -58,6 +70,38 @@ public class player_script : MonoBehaviour
         CheckIfGrounded();
         CheckFloorRays(pos);
         CheckCielingRays(pos);
+        if (invincible)
+        {
+            if (iTime < iTimer)
+            {
+                if (blinkTime < blinkTimer)
+                {
+                    blinkTime += Time.deltaTime;
+                }
+                else
+                {
+                    if (gameObject.GetComponent<SpriteRenderer>().enabled)
+                    {
+                        gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+                        blinkTime = 0;
+                    }
+                    else
+                    {   
+                        gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+                        blinkTime = 0;
+                    }
+                }
+
+
+                iTime += Time.deltaTime;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+                invincible = false;
+            }
+        }
+
         if (playerState == PlayerState.sliding)
         {
             Vector2 place = transform.localPosition;
@@ -116,8 +160,45 @@ public class player_script : MonoBehaviour
         }
         if (health == 0)
         {
-            score_manager.instance.changeLives(-1);
-            health = 1;
+            Time.timeScale = 0;
+
+            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            Vector2 loc = transform.localPosition;
+            if(dieUp)
+            {
+                if (transform.localPosition.y < ogLoc.y+3f)
+                {
+                    loc.y += 7f * Time.unscaledDeltaTime;
+                }
+                if (transform.localPosition.y < ogLoc.y+4.5f && transform.localPosition.y > ogLoc.y+3f)
+                {
+                    loc.y += 3.75f * Time.unscaledDeltaTime;
+                }
+                  if (transform.localPosition.y < ogLoc.y+5f && transform.localPosition.y > ogLoc.y+4.5f)
+                {
+                    loc.y += 2.3f * Time.unscaledDeltaTime;
+                }
+                if (transform.localPosition.y >= ogLoc.y+5f)
+                {
+                    dieDown = true;
+                    dieUp = false;
+                }              
+            }
+            if (dieDown)
+            {
+                if (transform.localPosition.y > -1f)
+                {
+                    loc.y -= 8 * Time.unscaledDeltaTime;
+                }
+                if (transform.localPosition.y <= -1f)
+                {
+                    dieDown = false;
+                    Time.timeScale = 1;
+                    score_manager.instance.changeLives(-1);
+                }              
+            }
+            transform.localPosition = loc;
         }
 
         if (health == 3 && (Input.GetKeyDown(KeyCode.LeftShift)) && canInput)
@@ -309,7 +390,12 @@ public class player_script : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            health--;
+            if (!invincible)
+            {
+                 health--;
+                 invincible = true;
+            }
+           
         }
 
         if (other.gameObject.CompareTag("mushroom"))

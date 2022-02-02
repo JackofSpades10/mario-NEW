@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class koopaAI : MonoBehaviour
 {
-
+    Rigidbody2D rb;
     public float gravity;
     public Vector2 velocity;
     public Vector2 shellVel;
     public bool isWalkingLeft = true;
-
+    public Transform hitLeft;
+    public Transform hitRight;
+    
     public LayerMask floorMask;
     public LayerMask wallMask;
+    public LayerMask shellHitMask;
 
     private bool grounded = false;
     public Sprite koopa;
@@ -33,6 +37,7 @@ public class koopaAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("player").GetComponent<player_script>();
         enabled = false;
         Fall();
@@ -41,23 +46,78 @@ public class koopaAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == KoopaState.shellKicked)
-        {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
-        }
+        Debug.Log(state.ToString());
         UpdateEnemyPosition();
 
         if (state == KoopaState.shell)
         {
+            
             if (standTimer < timeBeforeUp)
-            {
+            {   
                 standTimer += Time.deltaTime;
             } else
             {
+                standTimer = 0;
                 state = KoopaState.walking;
                 gameObject.GetComponent<SpriteRenderer>().sprite = koopa;
             }
         }
+
+
+        //attempt raycasting for shell hits
+          if (state == KoopaState.shellKicked)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+            
+            if (!isWalkingLeft)
+            {
+             RaycastHit2D rightCast = Physics2D.Raycast(hitRight.position, Vector2.right, 0.2f, shellHitMask);
+             if (rightCast.collider != null)
+             {
+                
+                 if (rightCast.collider.CompareTag("Enemy"))
+                 {
+                    rightCast.collider.GetComponent<enemyAI>().Crush();
+                 }
+
+                  if (rightCast.collider.CompareTag("Player"))
+                 {
+                       if (player.invincible == false) 
+                    {
+                        player.health--;
+                        player.invincible = true;
+                    }
+                 }
+             }
+            } else
+            {
+                 RaycastHit2D leftCast = Physics2D.Raycast(hitLeft.position, Vector2.left, 0.2f, shellHitMask);
+             if (leftCast.collider != null)
+             {
+                 if (leftCast.collider.CompareTag("Enemy"))
+                 {
+                    leftCast.collider.GetComponent<enemyAI>().Crush();
+                 }
+
+                  if (leftCast.collider.CompareTag("koopa"))
+                 {
+                    leftCast.collider.GetComponent<koopaAI>().Crush();
+                 }
+
+                  if (leftCast.collider.CompareTag("player"))
+                 {
+                       if (player.invincible == false) 
+                    {
+                        player.health--;
+                        player.invincible = true;
+                    }
+                 }
+             }
+            }
+
+        }
+  
+
     }
 
     public void Crush()
@@ -87,21 +147,25 @@ public class koopaAI : MonoBehaviour
                 }
             }
       }
-      else
-      {
-          if (other.gameObject.CompareTag("Player"))
-            {
-                player.health--;
-            }
-      }
+      //else
+     // {
+          //if (other.gameObject.CompareTag("Player"))
+           // {
+                //if (player.invincible == false) 
+               // {
+                 //   player.health--;
+                //    player.invincible = true;
+               // }
+            //}
+     // }
 
-      if (state == KoopaState.shellKicked)
-      {
-          if (other.gameObject.CompareTag("Enemy"))
-          {
-              other.collider.GetComponent<enemyAI>().Crush();
-          }
-      }
+      //if (state == KoopaState.shellKicked)
+     // {
+         // if (other.gameObject.CompareTag("Enemy"))
+//{
+             // other.collider.GetComponent<enemyAI>().Crush();
+       //   }
+    //  }
 
 
     }
@@ -111,6 +175,7 @@ public class koopaAI : MonoBehaviour
         if (state != KoopaState.dead)
         {
             Vector3 pos = transform.localPosition;
+            Vector2 vspd = rb.velocity;
             Vector3 scale = transform.localScale;
 
             if (state == KoopaState.falling)
@@ -124,29 +189,29 @@ public class koopaAI : MonoBehaviour
             {
                 if (isWalkingLeft)
                 {
-                    pos.x -= velocity.x * Time.deltaTime;
+                    rb.velocity = -velocity;
 
                     scale.x = -1;
                 }
                 else
                 {
-                    pos.x += velocity.x * Time.deltaTime;
+                    rb.velocity = velocity;
 
                     scale.x = 1;
                 }
             }
+
             if (state == KoopaState.shellKicked)
             {
                 if (isWalkingLeft)
                 {
-                    pos.x -= shellVel.x * Time.deltaTime;
+                    rb.velocity = -shellVel;
 
                     scale.x = -1;
                 }
                 else
                 {
-                    pos.x += shellVel.x * Time.deltaTime;
-
+                    rb.velocity = shellVel;
                     scale.x = 1;
                 }
             }
@@ -158,6 +223,7 @@ public class koopaAI : MonoBehaviour
 
             CheckWalls(pos, scale.x);
 
+            
             transform.localPosition = pos;
             transform.localScale = scale;
         }
@@ -194,7 +260,11 @@ public class koopaAI : MonoBehaviour
             
             if (hitRay.collider.tag == "Player")
             {
-                player.health--;
+                if (player.invincible == false) 
+                {
+                    player.health--;
+                    player.invincible = true;
+                }
             }
 
             pos.y = hitRay.collider.bounds.center.y + hitRay.collider.bounds.size.y/2 + 0.5f;
@@ -245,7 +315,11 @@ public class koopaAI : MonoBehaviour
 
             if (hitRay.collider.tag == "Player" && state != KoopaState.shell)
             {
-                player.health--;
+                if (player.invincible == false) 
+                {
+                    player.health--;
+                    player.invincible = true;
+                }
             }
 
             isWalkingLeft = !isWalkingLeft;

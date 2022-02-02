@@ -45,7 +45,6 @@ public class enemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(state.ToString());
         UpdateEnemyPosition();
 
         CheckCrushed();
@@ -145,8 +144,12 @@ public class enemyAI : MonoBehaviour
             
             if (hitRay.collider.tag == "Player")
             {
-                Debug.Log("hit player!");
-                player.health--;
+                if (player.invincible == false) 
+                {
+                
+                    player.health--;
+                    player.invincible = true;
+                }
             }
 
             pos.y = hitRay.collider.bounds.center.y + hitRay.collider.bounds.size.y/2 + 0.5f;
@@ -193,8 +196,12 @@ public class enemyAI : MonoBehaviour
 
             if (hitRay.collider.tag == "Player")
             {
-                Debug.Log("hit player!");
-                player.health--;
+                if (player.invincible == false) 
+                {
+                   
+                    player.health--;
+                    player.invincible = true;
+                }
             }
 
             isWalkingLeft = !isWalkingLeft;

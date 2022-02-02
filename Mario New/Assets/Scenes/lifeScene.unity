@@ -274,14 +274,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9509299, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2413806693520163455, guid: c3a860f7a45394840a1089e762fc158a, type: 3}
+  m_Sprite: {fileID: 1056510418840745134, guid: 234a420aacd566741be211c22e678730, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1510,8 +1510,11 @@ MonoBehaviour:
   scoreText: {fileID: 1816164607}
   lifeText: {fileID: 1718401109}
   timerText: {fileID: 1594382553}
+  score: 0
   timer: 3
   tick: 0
+  uiTimer: 400
+  levelDone: 0
 --- !u!4 &1845473439
 Transform:
   m_ObjectHideFlags: 0
